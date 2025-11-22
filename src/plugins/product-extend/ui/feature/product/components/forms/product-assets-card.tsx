@@ -2,6 +2,15 @@ import { Card, Button, AssetPickerDialog } from "@vendure/dashboard";
 import { Paperclip, X, GripVertical } from "lucide-react";
 import { useDialog } from "../../hooks/useDialog";
 import { useState } from "react";
+import {
+  createDragDropState,
+  handleDragStart as handleDragStartUtil,
+  handleDragOver as handleDragOverUtil,
+  handleDragLeave as handleDragLeaveUtil,
+  handleDrop as handleDropUtil,
+  handleDragEnd as handleDragEndUtil,
+  getDragDropClassName,
+} from "../../../../utils/drag-drop";
 
 interface Asset {
   id: string;
@@ -17,8 +26,7 @@ interface ProductAssetsCardProps {
 
 export function ProductAssetsCard({ assets, onAssetsChange, isPending }: ProductAssetsCardProps) {
   const assetDialog = useDialog();
-  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
-  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+  const [dragState, setDragState] = useState(createDragDropState());
 
   const handleDeleteAsset = (assetId: string) => {
     const remainingAssets = assets.filter((a) => a.id !== assetId);
@@ -31,41 +39,23 @@ export function ProductAssetsCard({ assets, onAssetsChange, isPending }: Product
   };
 
   const handleDragStart = (index: number) => {
-    setDraggedIndex(index);
+    handleDragStartUtil(index, setDragState);
   };
 
   const handleDragOver = (e: React.DragEvent, index: number) => {
-    e.preventDefault();
-    if (draggedIndex === null || draggedIndex === index) return;
-    setDragOverIndex(index);
+    handleDragOverUtil(e, index, dragState.draggedIndex, setDragState);
   };
 
   const handleDragLeave = () => {
-    setDragOverIndex(null);
+    handleDragLeaveUtil(setDragState);
   };
 
   const handleDrop = (e: React.DragEvent, dropIndex: number) => {
-    e.preventDefault();
-    if (draggedIndex === null || draggedIndex === dropIndex) {
-      setDraggedIndex(null);
-      setDragOverIndex(null);
-      return;
-    }
-
-    const newAssets = [...assets];
-    const draggedAsset = newAssets[draggedIndex];
-    newAssets.splice(draggedIndex, 1);
-    newAssets.splice(dropIndex, 0, draggedAsset);
-
-    // Asset đầu tiên sẽ là featured asset
-    onAssetsChange(newAssets);
-    setDraggedIndex(null);
-    setDragOverIndex(null);
+    handleDropUtil(e, dropIndex, dragState.draggedIndex, assets, onAssetsChange, setDragState);
   };
 
   const handleDragEnd = () => {
-    setDraggedIndex(null);
-    setDragOverIndex(null);
+    handleDragEndUtil(setDragState);
   };
 
   return (
@@ -109,13 +99,12 @@ export function ProductAssetsCard({ assets, onAssetsChange, isPending }: Product
                   onDragLeave={handleDragLeave}
                   onDrop={(e) => handleDrop(e, index)}
                   onDragEnd={handleDragEnd}
-                  className={`group relative rounded-lg border p-1 transition cursor-move ${
-                    draggedIndex === index
-                      ? "opacity-50 border-primary"
-                      : dragOverIndex === index
-                      ? "border-primary bg-primary/10 scale-105"
-                      : "border-transparent hover:border-muted-foreground/60"
-                  }`}
+                  className={getDragDropClassName(
+                    index,
+                    dragState.draggedIndex,
+                    dragState.dragOverIndex,
+                    "group relative rounded-lg border p-1 transition"
+                  )}
                 >
                   <div className="relative">
                     {asset.preview ? (

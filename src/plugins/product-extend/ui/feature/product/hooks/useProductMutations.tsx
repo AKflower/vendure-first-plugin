@@ -10,6 +10,7 @@ import {
   updateProductMutationDocument,
   updateProductAssetsMutationDocument,
 } from "../graphql/graphql";
+import { transformAssetsForMutation } from "../../../utils/data-transform";
 
 export function useProductMutations() {
   const queryClient = useQueryClient();
@@ -63,8 +64,7 @@ export function useProductMutations() {
       return api.mutate(updateProductAssetsMutationDocument, {
         input: {
           id: productId,
-          assetIds: selectedAssets.map((asset) => asset.id),
-          featuredAssetId: selectedAssets[0]?.id,
+          ...transformAssetsForMutation(selectedAssets),
         },
       });
     },

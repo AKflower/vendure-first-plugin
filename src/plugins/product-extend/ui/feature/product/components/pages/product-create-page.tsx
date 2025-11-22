@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Trans } from "@lingui/react/macro";
 import { ProductForm, type ProductFormValues } from "../forms/product-form";
 import { createProductMutationDocument } from "../../graphql/graphql";
+import { createTranslationInput } from "../../../../utils/data-transform";
 
 export function ProductCreatePage({ route }: { route: AnyRoute }) {
   const navigate = route.useNavigate();
@@ -14,21 +15,16 @@ export function ProductCreatePage({ route }: { route: AnyRoute }) {
       const result = await api.mutate(createProductMutationDocument, {
         input: {
           enabled: values.enabled,
-          translations: [
-            {
-              languageCode: "en",
-              name: values.name,
-              slug: values.slug,
-              description: values.description ?? "",
-            },
-          ],
+          translations: createTranslationInput(null, values, "en"),
         },
       });
       return result;
     },
-    onSuccess: (data) => {
+    onSuccess: (data: any) => {
       toast.success(<Trans>Product created successfully</Trans>);
-      navigate({ to: `/products-extend/${data.createProduct.id}` });
+      if (data?.createProduct?.id) {
+        navigate({ to: `/products-extend/${data.createProduct.id}` });
+      }
     },
     onError: (error: any) => {
       toast.error(error.message || <Trans>Failed to create product</Trans>);

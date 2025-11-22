@@ -106,6 +106,7 @@ export function ProductForm({ defaultValues, onSubmit, productId, isPending }: P
                       checked={field.value}
                       onCheckedChange={field.onChange}
                       disabled={isPending}
+                      className="cursor-pointer data-[state=checked]:bg-green-500"
                     />
                   )}
                 />

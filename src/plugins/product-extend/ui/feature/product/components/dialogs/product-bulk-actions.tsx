@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { TagIcon, Trash2, Copy } from "lucide-react";
 import type { ConfigurableOperationInput } from "@vendure/common/lib/generated-types";
 import { lazy, Suspense } from "react";
+import { getProductName } from "../../../../utils/translation";
 
 import {
   deleteProductsMutationDocument,
@@ -151,11 +152,11 @@ export const DuplicateProductsBulkAction: BulkActionComponent<any> = ({ selectio
             results.failed++;
             const errorMsg =
               result.duplicateEntity.message || result.duplicateEntity.duplicationError || "Unknown error";
-            results.errors.push(`${product.translations?.[0]?.name || product.id}: ${errorMsg}`);
+            results.errors.push(`${getProductName(product.translations, "en", product.id)}: ${errorMsg}`);
           }
         } catch (error: any) {
           results.failed++;
-          results.errors.push(`${product.translations?.[0]?.name || product.id}: ${error.message || "Unknown error"}`);
+          results.errors.push(`${getProductName(product.translations, "en", product.id)}: ${error.message || "Unknown error"}`);
         }
       }
 

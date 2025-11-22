@@ -12,6 +12,7 @@ import { EllipsisIcon, Eye, TagIcon, Copy, Trash2, ImageIcon } from "lucide-reac
 import { Trans } from "@lingui/react/macro";
 import { BaseAlertDialog } from "../dialogs/base-alert-dialog";
 import { useDialog } from "../../hooks/useDialog";
+import { getProductName } from "../../../../utils/translation";
 import {
   getProductsWithFacetValuesByIdsQueryDocument,
   updateProductsMutationDocument,
@@ -94,7 +95,7 @@ export function ProductRowActions({
         title={<Trans>Delete product</Trans>}
         description={
           <Trans>
-            Are you sure you want to delete "{product.translations?.[0]?.name ?? "this product"}"? This action
+            Are you sure you want to delete "{getProductName(product.translations, "en", "this product")}"? This action
             cannot be undone.
           </Trans>
         }

@@ -4,22 +4,9 @@ import { useMemo, Suspense } from "react";
 import { Paperclip } from "lucide-react";
 import type { VariantTableVariant } from "./variant-table";
 import { VariantRowActions } from "./variant-row-actions";
+import { formatPrice } from "../../../../utils/format";
 
 type Variant = VariantTableVariant;
-
-function formatPrice(value?: number | null, currencyCode?: string | null) {
-  if (!value || !currencyCode) {
-    return "—";
-  }
-  try {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: currencyCode,
-    }).format(value / 100);
-  } catch {
-    return `${value / 100} ${currencyCode}`;
-  }
-}
 
 interface UseVariantColumnsProps {
   onVariantClick?: (variantId: string) => void;

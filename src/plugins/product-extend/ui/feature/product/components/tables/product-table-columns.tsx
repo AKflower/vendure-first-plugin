@@ -1,6 +1,9 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox, DetailPageButton, Switch, DataTableColumnHeader } from "@vendure/dashboard";
 import { useMemo, Suspense } from "react";
+import { getProductName } from "../../../../utils/translation";
+import { formatDateShort } from "../../../../utils/date";
+import { sliceWithRemaining } from "../../../../utils/array";
 
 interface Product {
   id: string;
@@ -83,13 +86,13 @@ export function useProductColumns({
         enableSorting: true,
         cell: ({ row }) => {
           const product = row.original;
-          const translation = product.translations?.[0];
+          const productName = getProductName(product.translations);
           return (
             <div className="flex items-center gap-3">
               {product.featuredAsset?.preview ? (
                 <img
                   src={product.featuredAsset.preview}
-                  alt={translation?.name ?? ""}
+                  alt={productName}
                   className="size-10 rounded border object-cover"
                 />
               ) : (
@@ -99,7 +102,7 @@ export function useProductColumns({
               )}
               <DetailPageButton
                 id={product.id}
-                label={<p className="font-medium">{translation?.name ?? "Untitled product"}</p>}
+                label={<p className="font-medium">{productName}</p>}
                 className="font-medium"
               />
             </div>
@@ -152,7 +155,9 @@ export function useProductColumns({
         cell: ({ row }) => {
           const collections = row.original.collections;
           return (
-            <span className="text-muted-foreground">{collections?.map((c) => c.name).join(", ") ?? "—"}</span>
+            <span className="text-muted-foreground">
+              {collections?.map((c) => c.name).filter(Boolean).join(", ") ?? "—"}
+            </span>
           );
         },
       },
@@ -165,12 +170,11 @@ export function useProductColumns({
           const assets = row.original.assets;
           if (!assets || assets.length === 0) return <span className="text-muted-foreground">—</span>;
           
-          const visibleAssets = assets.slice(0, 3);
-          const remainingCount = assets.length - 3;
+          const { visible, remaining } = sliceWithRemaining(assets, 3);
           
           return (
             <div className="flex items-center gap-1.5">
-              {visibleAssets.map((a) => (
+              {visible.map((a) => (
                 <img
                   key={a.id}
                   src={a.preview}
@@ -179,12 +183,12 @@ export function useProductColumns({
                   title={a.name}
                 />
               ))}
-              {remainingCount > 0 && (
+              {remaining > 0 && (
                 <span
                   className="text-xs font-medium text-muted-foreground bg-muted px-1.5 py-0.5 rounded flex-shrink-0"
-                  title={`${remainingCount} more asset${remainingCount > 1 ? "s" : ""}`}
+                  title={`${remaining} more asset${remaining > 1 ? "s" : ""}`}
                 >
-                  +{remainingCount}
+                  +{remaining}
                 </span>
               )}
             </div>
@@ -205,19 +209,7 @@ export function useProductColumns({
         },
         cell: ({ row }) => {
           const date = row.original.createdAt;
-          if (!date) return <span className="text-muted-foreground">—</span>;
-          try {
-            return (
-              <span className="text-muted-foreground">
-                {new Intl.DateTimeFormat("en-US", {
-                  dateStyle: "medium",
-                  timeStyle: "short",
-                }).format(new Date(date))}
-              </span>
-            );
-          } catch {
-            return <span className="text-muted-foreground">{date}</span>;
-          }
+          return <span className="text-muted-foreground">{formatDateShort(date)}</span>;
         },
       },
       {

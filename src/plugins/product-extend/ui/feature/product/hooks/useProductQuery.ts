@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import type { ColumnFiltersState, SortingState } from "@tanstack/react-table";
 import { api } from "@vendure/dashboard";
 import { productsListQueryDocument, type ProductsListQueryResult } from "../graphql/graphql";
-import { buildQueryOptions } from "../../../utils/buildQueryOptions";
+import { buildQueryOptions } from "../utils/buildQueryOptions";
 import type { ProductFilters } from "./useProductFilters";
 
 export function useProductQuery(filters: ProductFilters) {
