@@ -1,0 +1,46 @@
+{
+  "name": "vendure-first-plugin",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build:tailwind": "npx @tailwindcss/cli -i ./src/plugins/product-extend/ui/global.css -o ./src/plugins/product-extend/ui/styles.css",
+    "dev:tailwind": "npm run build:tailwind -- --watch",
+    "dev:server": "ts-node ./src/index.ts",
+    "dev:worker": "ts-node ./src/index-worker.ts",
+    "dev": "concurrently \"npm:dev:*\"",
+    "build": "npm run build:tailwind && tsc",
+    "start:server": "node ./dist/index.js",
+    "start:worker": "node ./dist/index-worker.js",
+    "start": "concurrently \"npm:start:*\""
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.90.10",
+    "@types/react": "^19.2.6",
+    "@types/react-dom": "^19.2.3",
+    "@vendure/asset-server-plugin": "3.5.1",
+    "@vendure/core": "3.5.1",
+    "@vendure/dashboard": "3.5.1",
+    "@vendure/email-plugin": "3.5.1",
+    "@vendure/graphiql-plugin": "3.5.1",
+    "clsx": "^2.1.1",
+    "dotenv": "17.2.3",
+    "graphql": "^16.12.0",
+    "graphql-request": "^7.3.4",
+    "pg": "8.16.3",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-hook-form": "^7.66.1",
+    "tailwind-merge": "^3.4.0",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.17",
+    "@types/node": "^24.10.1",
+    "@vendure/cli": "3.5.1",
+    "autoprefixer": "^10.4.22",
+    "concurrently": "^9.2.1",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.17",
+    "typescript": "5.8.2"
+  }
+}
