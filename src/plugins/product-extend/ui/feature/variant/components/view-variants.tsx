@@ -1,13 +1,14 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import {
-
   Card,
+  Button,
   api,
 } from "@vendure/dashboard";
 import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { useMemo, useState } from "react";
 import { Trans } from "@lingui/react/macro";
+import { Plus } from "lucide-react";
 import type { SortingState, ColumnFiltersState } from "@tanstack/react-table";
 import {
   productVariantsQueryDocument,
@@ -15,15 +16,19 @@ import {
 } from "../graphql/graphql";
 import { VariantTable } from "./tables/variant-table";
 import { LoadingState } from "../../../components/loading-state";
+import { CreateVariantsDialog } from "./dialogs/create-variants-dialog";
+import { useDialog } from "../../product/hooks/useDialog";
 
 interface ViewVariantsProps {
   productId: string;
   onUpdateButtonClick?: () => void;
   showUpdateButton?: boolean;
+  onCreateVariant?: () => void;
 }
 
-export function ViewVariants({ productId, onUpdateButtonClick, showUpdateButton = true }: ViewVariantsProps) {
+export function ViewVariants({ productId, onUpdateButtonClick, showUpdateButton = true, onCreateVariant }: ViewVariantsProps) {
   const navigate = useNavigate();
+  const createDialog = useDialog();
 
   const variantsQuery = useQuery<ProductVariantsQueryResult>({
     queryKey: ["product-variants", productId],
@@ -32,6 +37,7 @@ export function ViewVariants({ productId, onUpdateButtonClick, showUpdateButton 
 
   const product = variantsQuery.data?.product;
   const variants = product?.variants ?? [];
+  const hasVariants = variants.length > 0;
 
   // const updateMutation = useMutation({
   //   mutationFn: async (values: VariantFormValues & { variantId: string }) => {
@@ -206,11 +212,49 @@ export function ViewVariants({ productId, onUpdateButtonClick, showUpdateButton 
     );
   }
 
+  // Show empty state with create button if no variants
+  if (!hasVariants) {
+    return (
+      <>
+        <Card className="p-8">
+          <div className="flex flex-col items-center justify-center text-center space-y-4">
+            <p className="text-muted-foreground">
+              <Trans>No variants found. Create your first variant to get started.</Trans>
+            </p>
+            <Button onClick={createDialog.openDialog}>
+              <Plus className="mr-2 h-4 w-4" />
+              <Trans>Create Variants</Trans>
+            </Button>
+          </div>
+        </Card>
+
+        <CreateVariantsDialog
+          open={createDialog.open}
+          onOpenChange={createDialog.onOpenChange}
+          productId={productId}
+          currencyCode={variants[0]?.currencyCode}
+          onSuccess={() => {
+            variantsQuery.refetch();
+          }}
+        />
+      </>
+    );
+  }
+
   return (
     <>
       <div className="">
         <div className="space-y-4">
-          <VariantTable 
+          <div className="flex items-center justify-between mb-4">
+            <Button variant="outline" size="sm" onClick={() => navigate({ to: `/products/${productId}/variants` })}>
+              <Trans>Manage variants</Trans>
+            </Button>
+            <Button onClick={createDialog.openDialog}>
+              <Plus className="mr-2 h-4 w-4" />
+              <Trans>Create Variants</Trans>
+            </Button>
+          </div>
+          <VariantTable
             variants={filteredAndPaginatedVariants}
             totalItems={totalFilteredItems}
             page={page}
@@ -219,6 +263,7 @@ export function ViewVariants({ productId, onUpdateButtonClick, showUpdateButton 
             filters={filters}
             searchTerm={searchTerm}
             onVariantClick={handleVariantClick}
+            onManageVariants={undefined}
             onPageChange={(_, newPage, newPageSize) => {
               setPage(newPage);
               setPageSize(newPageSize);
@@ -237,11 +282,17 @@ export function ViewVariants({ productId, onUpdateButtonClick, showUpdateButton 
             }}
           />
         </div>
-
-     
       </div>
 
-  
+      <CreateVariantsDialog
+        open={createDialog.open}
+        onOpenChange={createDialog.onOpenChange}
+        productId={productId}
+        currencyCode={variants[0]?.currencyCode}
+        onSuccess={() => {
+          variantsQuery.refetch();
+        }}
+      />
     </>
   );
 }

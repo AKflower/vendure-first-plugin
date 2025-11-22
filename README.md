@@ -86,7 +86,7 @@ npm start
 ### Truy cập Dashboard
 
 Sau khi chạy thành công, truy cập:
-- **Admin Dashboard**: http://localhost:3000/admin
+- **Admin Dashboard**: http://localhost:3000/dashboard
 - **GraphQL Playground**: http://localhost:3000/admin-api
 
 ## 🏗️ Kiến trúc dự án
@@ -265,6 +265,7 @@ Các thao tác nguy hiểm (delete) có confirmation dialog:
 - ✅ Filter theo category (faceted filter)
 - ✅ Sort theo các cột (name, slug, createdAt, enabled)
 - ✅ Toggle enabled/disabled nhanh trong bảng
+- ✅ Chỉnh sửa assets nhanh ngay trong bảng
 - ✅ Xem chi tiết sản phẩm
 - ✅ Tạo sản phẩm mới
 - ✅ Chỉnh sửa sản phẩm (name, slug, description, enabled)
@@ -325,11 +326,6 @@ Các thao tác nguy hiểm (delete) có confirmation dialog:
    - Import products từ file
    - Bulk update từ file
 
-5. **Product Templates**
-   - Tạo template cho product
-   - Apply template khi tạo product mới
-   - Save product as template
-
 
 7. **Product Relationships**
    - Related products
@@ -360,25 +356,25 @@ Các thao tác nguy hiểm (delete) có confirmation dialog:
    - Lazy load images
    - Code splitting tốt hơn
 
-3. **Accessibility**
+3. **Structure**
+   - Tạo base table của riêng mình để tăng khả năng tùy biến
+
+4. **Accessibility**
    - ARIA labels đầy đủ
    - Keyboard navigation
    - Screen reader support
 
-4. **Internationalization**
+5. **Internationalization**
    - Multi-language support
    - Date/time formatting theo locale
    - Currency formatting theo locale
 
-5. **Error Handling**
+6. **Error Handling**
    - Error boundaries
    - Retry mechanisms
    - Better error messages
 
-6. **Documentation**
-   - Storybook cho components
-   - API documentation
-   - User guide
+
 
 ## 📝 Ghi chú
 

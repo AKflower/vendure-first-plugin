@@ -269,7 +269,6 @@ export function ProductDetailPage({ route }: { route: AnyRoute }) {
             />
 
             <PageBlock column="main" blockId="variants-table" className="space-y-4">
-              <Button variant="outline" size="sm" onClick={() => navigate({ to: `/products/${product.id}/variants` })}>Manage variants</Button>
               <ViewVariants productId={product.id} />
             </PageBlock>
           </div>
