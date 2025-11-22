@@ -29,15 +29,11 @@ npm install
 
 2. **Cấu hình database:**
 
-Tạo file `.env` trong thư mục gốc với nội dung:
-
-```env
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=vendure
-DB_USERNAME=your_username
-DB_PASSWORD=your_password
+Sử dụng lệnh
+```bash
+docker-compose up
 ```
+để khởi tạo database
 
 3. **Build Tailwind CSS:**
 
