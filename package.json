@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build:tailwind": "npx @tailwindcss/cli -i ./src/plugins/eazylab-plugin/ui/global.css -o ./src/plugins/eazylab-plugin/ui/styles.css",
+    "build:tailwind": "npx @tailwindcss/cli -i ./src/plugins/product-extend/ui/global.css -o ./src/plugins/product-extend/ui/styles.css",
     "dev:tailwind": "npm run build:tailwind -- --watch",
     "dev:server": "ts-node ./src/index.ts",
     "dev:worker": "ts-node ./src/index-worker.ts",

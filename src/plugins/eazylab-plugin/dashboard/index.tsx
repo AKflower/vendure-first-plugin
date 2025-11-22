@@ -1,6 +1,6 @@
 import { defineDashboardExtension } from '@vendure/dashboard';
 import { z } from 'zod';
-
+import '../ui/global.css';
 import { ViewProducts } from '../ui/modules/products/components/view-products';
 import { CreateProductPage } from '../ui/modules/products/components/create-product';
 import { ViewProduct } from '../ui/modules/products/components/view-product';
@@ -25,12 +25,12 @@ defineDashboardExtension({
             component: route => <ViewProducts route={route} />,
         },
         {
-            path: '/products-extend/create',
+            path: '/products-extend-list/create',
             loader: () => ({ breadcrumb: 'Tạo sản phẩm' }),
             component: route => <CreateProductPage route={route} />,
         },
         {
-            path: '/products-extend/$id',
+            path: '/products-extend-list/$id',
             loader: () => ({ breadcrumb: 'Product Detail' }),
             component: route => <ViewProduct route={route} />,
         },

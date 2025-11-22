@@ -1,12 +1,11 @@
 import { PluginCommonModule, Type, VendurePlugin } from '@vendure/core';
 
-import { PRODUCT_PLUGIN_OPTIONS } from './constants';
+import { PRODUCT_EXTEND_PLUGIN_OPTIONS } from './constants';
 import { PluginInitOptions } from './types';
-import { Product } from '@vendure/core';
 
 @VendurePlugin({
     imports: [PluginCommonModule],
-    providers: [{ provide: PRODUCT_PLUGIN_OPTIONS, useFactory: () => ProductPlugin.options }],
+    providers: [{ provide: PRODUCT_EXTEND_PLUGIN_OPTIONS, useFactory: () => ProductExtendPlugin.options }],
     configuration: config => {
         // Plugin-specific configuration
         // such as custom fields, custom permissions,
@@ -15,16 +14,13 @@ import { Product } from '@vendure/core';
         return config;
     },
     compatibility: '^3.0.0',
-    adminApiExtensions: {
-    },
     dashboard: './dashboard/index.tsx',
-
 })
-export class ProductPlugin {
+export class ProductExtendPlugin {
     static options: PluginInitOptions;
 
-    static init(options: PluginInitOptions): Type<ProductPlugin> {
+    static init(options: PluginInitOptions): Type<ProductExtendPlugin> {
         this.options = options;
-        return ProductPlugin;
+        return ProductExtendPlugin;
     }
 }

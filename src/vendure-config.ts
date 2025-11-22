@@ -11,7 +11,8 @@ import { DashboardPlugin } from '@vendure/dashboard/plugin';
 import { GraphiqlPlugin } from '@vendure/graphiql-plugin';
 import 'dotenv/config';
 import path from 'path';
-import { EazyLabPlugin} from "./plugins/eazylab-plugin/eazylab.plugin"
+// import { EazyLabPlugin} from "./plugins/eazylab-plugin/eazylab.plugin"
+import { ProductExtendPlugin } from "./plugins/product-extend/product-extend.plugin"
 
 const IS_DEV = process.env.APP_ENV === 'dev';
 const serverPort = +process.env.PORT || 3000;
@@ -72,7 +73,11 @@ export const config: VendureConfig = {
         }),
         DefaultSchedulerPlugin.init(),
         DefaultJobQueuePlugin.init({ useDatabaseForBuffer: true }),
-        DefaultSearchPlugin.init({ bufferUpdates: false, indexStockStatus: true }),
+        DefaultSearchPlugin.init({ 
+            bufferUpdates: false, 
+            indexStockStatus: true,
+            
+         }),
         EmailPlugin.init({
             devMode: true,
             outputPath: path.join(__dirname, '../static/email/test-emails'),
@@ -95,6 +100,7 @@ export const config: VendureConfig = {
                 : path.join(__dirname, 'dashboard'),
         }),
         // ProductPlugin.init({}),
-        EazyLabPlugin.init({}),
+        // EazyLabPlugin.init({}),
+        ProductExtendPlugin.init({}),
     ],
 };
