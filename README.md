@@ -4,8 +4,8 @@ Plugin mở rộng cho Vendure Admin Dashboard, giúp quản lý sản phẩm m�
 
 ## 📋 Mục lục
 
-- [Cài đặt & Chạy dự án](https://github.com/AKflower/vendure-first-plugin?tab=readme-ov-file#-c%C3%A0i-%C4%91%E1%BA%B7t--ch%E1%BA%A1y-d%E1%BB%B1-%C3%A1n)
-- [Kiến trúc dự án](#kiến-trúc-dự-án)
+- [Cài đặt & Chạy dự án](#-c%C3%A0i-%C4%91%E1%BA%B7t--ch%E1%BA%A1y-d%E1%BB%B1-%C3%A1n)
+- [Kiến trúc dự án](#%EF%B8%8F-ki%E1%BA%BFn-tr%C3%BAc-d%E1%BB%B1-%C3%A1n)
 - [Quyết định UI/UX](#quyết-định-uiux)
 - [Tính năng đã hoàn thành](#tính-năng-đã-hoàn-thành)
 - [Định hướng mở rộng](#định-hướng-mở-rộng)
