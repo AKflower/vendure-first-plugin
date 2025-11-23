@@ -6,9 +6,9 @@ Plugin mở rộng cho Vendure Admin Dashboard, giúp quản lý sản phẩm m�
 
 - [Cài đặt & Chạy dự án](#-c%C3%A0i-%C4%91%E1%BA%B7t--ch%E1%BA%A1y-d%E1%BB%B1-%C3%A1n)
 - [Kiến trúc dự án](#%EF%B8%8F-ki%E1%BA%BFn-tr%C3%BAc-d%E1%BB%B1-%C3%A1n)
-- [Quyết định UI/UX](#quyết-định-uiux)
-- [Tính năng đã hoàn thành](#tính-năng-đã-hoàn-thành)
-- [Định hướng mở rộng](#định-hướng-mở-rộng)
+- [Quyết định UI/UX](#-quy%E1%BA%BFt-%C4%91%E1%BB%8Bnh-uiux)
+- [Tính năng đã hoàn thành](#-t%C3%ADnh-n%C4%83ng-%C4%91%C3%A3-ho%C3%A0n-th%C3%A0nh)
+- [Định hướng mở rộng](#-%C4%91%E1%BB%8Bnh-h%C6%B0%E1%BB%9Bng-m%E1%BB%9F-r%E1%BB%99ng)
 
 
 ## 🚀 Cài đặt & Chạy dự án
